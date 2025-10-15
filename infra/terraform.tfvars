@@ -1,2 +1,2 @@
-resource_group_name = "abhi-resource"
+resource_group_name = "devops-rg"
 location            = "East US"
