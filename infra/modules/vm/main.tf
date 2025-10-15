@@ -41,6 +41,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
     sku       = "20_04-lts"
     version   = "latest"
   }
+  connection {
+    type        = "ssh"
+    host        = self.public_ip_address
+    user        =  "abhi"
+    password    =  "Abhi@2020"
+  }
 
   provisioner "remote-exec" {
     inline = [
