@@ -47,7 +47,20 @@ resource "azurerm_linux_virtual_machine" "vm" {
     user        =  "abhi"
     password    =  "Abhi@2020"
   }
-  resource "azurerm_network_security_group" "nsg" {
+  
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt update -y",
+      "sudo apt install -y curl wget git apt-transport-https ca-certificates software-properties-common",
+      "curl -fsSL https://get.docker.com | sudo bash",
+      "sudo usermod -aG docker abhi",
+      "sudo apt install -y kubectl helm minikube",
+      "echo 'Tools installed successfully!'"
+    ]
+  }
+}
+resource "azurerm_network_security_group" "nsg" {
   name                = "devops-nsg"
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -65,15 +78,3 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 }
 
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo apt update -y",
-      "sudo apt install -y curl wget git apt-transport-https ca-certificates software-properties-common",
-      "curl -fsSL https://get.docker.com | sudo bash",
-      "sudo usermod -aG docker abhi",
-      "sudo apt install -y kubectl helm minikube",
-      "echo 'Tools installed successfully!'"
-    ]
-  }
-}
