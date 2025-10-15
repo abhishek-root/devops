@@ -23,6 +23,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   location            = var.location
   resource_group_name = var.resource_group_name
   size                = "Standard_B2s"
+  admin_username      = "admin"
+  admin_password      = "admin"
   disable_password_authentication = false
 
   network_interface_ids = [azurerm_network_interface.nic.id]
@@ -44,7 +46,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
       "sudo apt update -y",
       "sudo apt install -y curl wget git apt-transport-https ca-certificates software-properties-common",
       "curl -fsSL https://get.docker.com | sudo bash",
-      "sudo usermod -aG docker ${var.admin_username}",
+      "sudo usermod -aG docker admin",
       "sudo apt install -y kubectl helm minikube",
       "echo 'Tools installed successfully!'"
     ]
