@@ -8,12 +8,4 @@ variable "location" {
   default     = "East US"
 }
 
-variable "admin_username" {
-  type        = string
-  default     = "azureuser"
-}
 
-variable "admin_password" {
-  type        = string
-  description = "Admin password for VM"
-}
