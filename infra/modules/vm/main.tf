@@ -47,6 +47,24 @@ resource "azurerm_linux_virtual_machine" "vm" {
     user        =  "abhi"
     password    =  "Abhi@2020"
   }
+  resource "azurerm_network_security_group" "nsg" {
+  name                = "devops-nsg"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  security_rule {
+    name                       = "SSH"
+    priority                   = 1001
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
 
   provisioner "remote-exec" {
     inline = [
