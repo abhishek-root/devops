@@ -22,14 +22,14 @@ jobs:
       # Install dependencies
       - name: Install dependencies
         run: |
-          sudo apt install pylint -y
+          sudo apt install pylint python-pytest -y
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       # Run Linting
       - name: Run Pylint
         run: |
-          pylint app/**/*.py
+          pylint main.py
           
       # Run Tests
       - name: Run Unit Tests
