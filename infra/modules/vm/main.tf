@@ -13,7 +13,7 @@ resource "azurerm_network_interface" "nic" {
 
   ip_configuration {
   name                          = "internal"
-  subnet_id                     = azurerm_subnet.subnet.id
+  subnet_id                     = var.subnet_id
   private_ip_address_allocation = "Dynamic"
   public_ip_address_id          = azurerm_public_ip.vm_ip.id
   }
@@ -50,7 +50,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
       password    = "Abhi@2020"
       timeout     = "5m"
     }
-    
+
     inline = [
       "sudo apt update -y",
       "sudo apt install -y curl wget git apt-transport-https ca-certificates software-properties-common",
