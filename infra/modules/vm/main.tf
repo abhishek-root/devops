@@ -46,7 +46,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
       "sudo apt update -y",
       "sudo apt install -y curl wget git apt-transport-https ca-certificates software-properties-common",
       "curl -fsSL https://get.docker.com | sudo bash",
-      "sudo usermod -aG docker admin",
+      "sudo usermod -aG docker abhi",
       "sudo apt install -y kubectl helm minikube",
       "echo 'Tools installed successfully!'"
     ]
