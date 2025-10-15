@@ -129,17 +129,9 @@ jobs:
     needs: terraform
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build & Push Docker Image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-hello:latest
-
-      # SSH into VM and deploy to Minikube
       - name: Deploy to Minikube on VM
         uses: appleboy/ssh-action@v0.1.9
         with:
@@ -147,24 +139,24 @@ jobs:
           username: abhi
           password: ${{ secrets.VM_PASSWORD }}
           script: |
-            # Pull Docker image into VM
+            echo "Pull Docker image from Docker Hub"
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-hello:latest
             
-            # Load image into Minikube (if using docker driver)
+            echo "Load Docker image into Minikube"
             minikube image load ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-hello:latest
 
-            # Deploy Kubernetes manifests
+            echo "Deploy Kubernetes manifests"
             kubectl apply -f /home/abhi/app/k8s/deployment.yaml
             kubectl apply -f /home/abhi/app/k8s/service.yaml
             kubectl apply -f /home/abhi/app/k8s/ingress.yaml
 
-            # Install Nginx ingress controller if not installed
+            echo "Install Nginx ingress controller (if not installed)"
             helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
             helm repo update
             helm upgrade --install nginx-ingress ingress-nginx/ingress-nginx \
               --set controller.publishService.enabled=true
 
-            # Verify pods and services
+            echo "Verify deployment"
             kubectl get pods
             kubectl get svc
             kubectl get ingress
