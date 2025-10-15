@@ -31,3 +31,13 @@ module "vm" {
   subnet_id           = module.network.subnet_id
   vm_name             = "devops-vm-${random_id.vm_id.hex}"
 }
+
+terraform {
+  backend "azurerm" {
+    resource_group_name  = "abhi-resource"          # your resource group
+    storage_account_name = "abhi905950" # your storage account
+    container_name       = "terraformstate"            # container name
+    key                  = "terraform.tfstate"  # state file name
+  }
+}
+
