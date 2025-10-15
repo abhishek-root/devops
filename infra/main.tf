@@ -34,10 +34,10 @@ module "vm" {
 
 terraform {
   backend "azurerm" {
-    resource_group_name  = "abhi-resource"          # your resource group
-    storage_account_name = "abhi905950" # your storage account
-    container_name       = "terraformstate"            # container name
-    key                  = "terraform.tfstate"  # state file name
+    resource_group_name  = "abhi-resource"         
+    storage_account_name = "abhi905950" 
+    container_name       = "terraformstate"            
+    key                  = "terraform.tfstate"  
   }
 }
 
