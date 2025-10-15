@@ -22,6 +22,7 @@ jobs:
       # Install dependencies
       - name: Install dependencies
         run: |
+          sudo apt install pylint -y
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
