@@ -139,10 +139,10 @@ jobs:
           username: abhi
           password: ${{ secrets.VM_PASSWORD }}
           script: |
-          
-            microk8s kubectl apply -f /home/abhi/k8s/deployment.yaml
-            microk8s kubectl apply -f /home/abhi/k8s/service.yaml
-            microk8s kubectl apply -f /home/abhi/k8s/ingress.yaml
+
+            microk8s kubectl apply -f /infra/k8s/deployment.yaml
+            microk8s kubectl apply -f /infra/k8s/service.yaml
+            microk8s kubectl apply -f /infra/k8s/ingress.yaml
 
             # Wait for rollout
             microk8s kubectl rollout status deployment/fastapi-app
