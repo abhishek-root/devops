@@ -23,7 +23,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   name                = var.vm_name
   location            = var.location
   resource_group_name = var.resource_group_name
-  size                = "Standard_B1s"
+  size                = "Standard_B2s"
   admin_username      = "abhi"
   admin_password      = "Abhi@2020"
   disable_password_authentication = false
@@ -56,30 +56,17 @@ resource "azurerm_linux_virtual_machine" "vm" {
       "sudo apt install -y curl wget git apt-transport-https ca-certificates software-properties-common",
       "curl -fsSL https://get.docker.com | sudo bash",
       "sudo usermod -aG docker abhi",
-      "sudo apt install -y kubectl helm minikube",
-      "echo 'Tools installed successfully!'"
+      "sudo apt-get install -y snapd curl git"   
+      "sudo snap install microk8s --classic --channel=1.34/stable"
+      "sudo usermod -aG microk8s $USER"
+      "sudo chown -f -R $USER ~/.kube"
+      "newgrp microk8s"
+      "sudo microk8s enable dns dashboard ingress registry"
+      "sudo microk8s kubectl get nodes"
+      "sudo apt install -y kubectl helm",
+      "echo       'Tools installed successfully!'     "
     ]
   }
 }
-resource "azurerm_network_security_group" "nsg" {
-  name                = "devops-nsg"
-  location            = var.location
-  resource_group_name = var.resource_group_name
 
-  security_rule {
-    name                       = "SSH"
-    priority                   = 1001
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-}
-resource "azurerm_subnet_network_security_group_association" "subnet_nsg" {
-  subnet_id                 = var.subnet_id
-  network_security_group_id = azurerm_network_security_group.nsg.id
-}
 
