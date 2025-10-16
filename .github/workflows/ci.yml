@@ -150,7 +150,6 @@ jobs:
              microk8s version
              echo "microk8s installed"
              microk8s kubectl apply -f ~/k8s
-             microk8s kubectl rollout status deployment/fastapi-app
           
              NODE_PORT=$(microk8s kubectl get svc fastapi-service -o jsonpath='{.spec.ports[0].nodePort}')
              echo "Your app is accessible at: http://${{ secrets.VM_HOST }}:$NODE_PORT"
