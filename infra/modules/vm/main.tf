@@ -56,13 +56,13 @@ resource "azurerm_linux_virtual_machine" "vm" {
       "sudo apt install -y curl wget git apt-transport-https ca-certificates software-properties-common",
       "curl -fsSL https://get.docker.com | sudo bash",
       "sudo usermod -aG docker abhi",
-      "sudo apt-get install -y snapd curl git"   
-      "sudo snap install microk8s --classic --channel=1.34/stable"
-      "sudo usermod -aG microk8s $USER"
-      "sudo chown -f -R $USER ~/.kube"
-      "newgrp microk8s"
-      "sudo microk8s enable dns dashboard ingress registry"
-      "sudo microk8s kubectl get nodes"
+      "sudo apt-get install -y snapd curl git",
+      "sudo snap install microk8s --classic --channel=1.34/stable",
+      "sudo usermod -aG microk8s $USER",
+      "sudo chown -f -R $USER ~/.kube",
+      "newgrp microk8s",
+      "sudo microk8s enable dns dashboard ingress registry",
+      "sudo microk8s kubectl get nodes",
       "sudo apt install -y kubectl helm",
       "echo       'Tools installed successfully!'     "
     ]
