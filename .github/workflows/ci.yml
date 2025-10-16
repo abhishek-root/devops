@@ -132,23 +132,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Ensure target directory exists
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.VM_PUBLIC_IP }}
-          username: abhi
-          password: ${{ secrets.VM_PASSWORD }}
-          script: mkdir -p ~/k8s
-
-      - name: Copy manifest to VM
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.VM_PUBLIC_IP }}
-          username: abhi
-          password: ${{ secrets.VM_PASSWORD }}
-          source: "infra/k8s/*.yaml"
-          target: "~/k8s"
-
       - name: Install prerequisites and deploy app on VM
         uses: appleboy/ssh-action@v0.1.9
         with:
@@ -156,15 +139,14 @@ jobs:
           username: abhi
           password: ${{ secrets.VM_PASSWORD }}
           script: |
+             mkdir -p ~/k8s
+             sudo apt-get update
+             sudo apt-get install -y sshpass
+             sshpass -p "${{ secrets.VM_PASSWORD }}" scp -o StrictHostKeyChecking=no infra/k8s/*.yaml abhi@${{ secrets.VM_PUBLIC_IP }}:~/k8s/
+             sshpass -p "${{ secrets.VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no abhi@${{ secrets.VM_PUBLIC_IP}} "microk8s kubectl apply -f ~/k8s"
              microk8s version
              echo "microk8s installed"
 
-             microk8s kubectl apply -f ~/k8s
-             microk8s kubectl apply -f /infra/k8s/deployment.yaml
-             microk8s kubectl apply -f /infra/k8s/service.yaml
-             microk8s kubectl apply -f /infra/k8s/ingress.yaml
-
-      
              microk8s kubectl rollout status deployment/fastapi-app
 
             
