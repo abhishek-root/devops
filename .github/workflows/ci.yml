@@ -142,7 +142,7 @@ jobs:
              mkdir -p ~/k8s
              sudo apt-get update
              sudo apt-get install -y sshpass
-             sshpass -p "${{ secrets.VM_PASSWORD }}" scp -o StrictHostKeyChecking=no infra/k8s/*.yaml abhi@${{ secrets.VM_PUBLIC_IP }}:~/k8s/
+             sshpass -p "${{ secrets.VM_PASSWORD }}" scp -o StrictHostKeyChecking=no k8s/*.yaml abhi@${{ secrets.VM_PUBLIC_IP }}:~/k8s/
              sshpass -p "${{ secrets.VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no abhi@${{ secrets.VM_PUBLIC_IP}} "microk8s kubectl apply -f ~/k8s"
              microk8s version
              echo "microk8s installed"
