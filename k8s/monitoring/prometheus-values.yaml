@@ -1,0 +1,16 @@
+alertmanager:
+  enabled: false
+
+pushgateway:
+  enabled: false
+
+server:
+  persistentVolume:
+    enabled: true
+    storageClass: microk8s-hostpath
+    size: 8Gi
+  service:
+    type: NodePort
+    nodePort: 30090
+  global:
+    scrape_interval: 15s
