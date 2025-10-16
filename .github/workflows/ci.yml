@@ -132,6 +132,14 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Ensure target directory exists
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.VM_PUBLIC_IP }}
+          username: abhi
+          password: ${{ secrets.VM_PASSWORD }}
+          script: mkdir -p ~/k8s
+
       - name: Copy manifest to VM
         uses: appleboy/scp-action@v0.1.4
         with:
