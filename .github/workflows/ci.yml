@@ -63,7 +63,7 @@ jobs:
          with:
            context: .
            push: true
-         tags: ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-hello:latest
+           tags: ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-hello:latest
 
    terraform:
       name: Terraform Plan & Apply
