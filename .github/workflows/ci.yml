@@ -150,7 +150,7 @@ jobs:
               microk8s version
               echo "microk8s installed"
               microk8s kubectl apply -f ~/k8s
-              export pubip=$(curl -s ifconfig.me)
+              pubip=$(curl -s ifconfig.me) 
             
               NODE_PORT=$(microk8s kubectl get svc fastapi-service -o jsonpath='{.spec.ports[0].nodePort}')
               echo "Your app is accessible at: http://$pubip:$NODE_PORT"
