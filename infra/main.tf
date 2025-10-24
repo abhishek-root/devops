@@ -30,7 +30,6 @@ module "vm" {
   location            = var.location
   subnet_id           = module.network.subnet_id
   vm_name             = "devops-vm-${random_id.vm_id.hex}"
-  admin_password = var.admin_password
 }
 
 terraform {
