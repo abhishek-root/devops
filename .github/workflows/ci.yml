@@ -112,9 +112,9 @@ jobs:
             ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
    terraform_apply:
-      name: Terraform Plan & Apply
+      name: Terraform Apply
       runs-on: ubuntu-latest
-      needs: docker-build-push
+      needs: terraform_plan_validate
       if: github.ref == 'refs/heads/main'
 
       steps:
@@ -168,7 +168,7 @@ jobs:
    deploy-k8s:
       name: Install & Deploy to Kubernetes on Minikube
       runs-on: ubuntu-latest
-      needs: terraform
+      needs: terraform_apply
       if: github.ref == 'refs/heads/main'
 
       steps:
