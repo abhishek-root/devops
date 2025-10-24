@@ -24,8 +24,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   location            = var.location
   resource_group_name = var.resource_group_name
   size                = "Standard_B2s"
-  admin_username      = "abhi"
-  admin_password      = "Abhi@2020"
+  admin_username      = var.admin_username
+  admin_password      = var.admin_password
   disable_password_authentication = false
 
   network_interface_ids = [azurerm_network_interface.nic.id]
@@ -46,8 +46,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
     connection {
       type        = "ssh"
       host        = azurerm_public_ip.vm_ip.ip_address
-      user        = "abhi"
-      password    = "Abhi@2020"
+      user        = var.admin_username
+      password    = var.admin_password
       timeout     = "5m"
     }
 
