@@ -3,3 +3,5 @@ variable "location" {}
 variable "subnet_id" {}
 variable "vm_name" {}
 
+
+

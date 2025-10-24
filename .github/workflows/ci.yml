@@ -6,68 +6,68 @@ on:
       - dev
 
 jobs:
-   build-test-lint:
-     runs-on: ubuntu-latest
+    build-test-lint:
+      runs-on: ubuntu-latest
 
-     steps:
-       # Checkout code
-       - name: Checkout code
-         uses: actions/checkout@v4
+      steps:
+        # Checkout code
+        - name: Checkout code
+          uses: actions/checkout@v4
 
-       # Set up Python
-       - name: Set up Python
-         uses: actions/setup-python@v5
-         with:
-           python-version: "3.11"
+        # Set up Python
+        - name: Set up Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: "3.11"
 
-       # Install dependencies
-       - name: Install dependencies
-         run: |
-           sudo apt remove man-db -y
-           sudo apt install pylint python3-pytest python3-fastapi python3-httpx -y
-           python -m pip install --upgrade pip
-           pip install -r requirements.txt
+        # Install dependencies
+        - name: Install dependencies
+          run: |
+            sudo apt remove man-db -y
+            sudo apt install pylint python3-pytest python3-fastapi python3-httpx -y
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
 
-       # Run Linting
-       - name: Run Pylint
-         run: |
-           pylint app/main.py
+        # Run Linting
+        - name: Run Pylint
+          run: |
+            pylint app/main.py
           
-       # Run Tests
-       - name: Run Unit Tests
-         run: |
-           pytest --maxfail=1 --disable-warnings -q
+        # Run Tests
+        - name: Run Unit Tests
+          run: |
+            pytest --maxfail=1 --disable-warnings -q
 
-   docker-build-push:
-     runs-on: ubuntu-latest
-     needs: build-test-lint  
-     if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/main'
+    docker-build-push:
+      runs-on: ubuntu-latest
+      needs: build-test-lint  
+      if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/main'
 
-     steps:
-       # Checkout code
-       - name: Checkout code
-         uses: actions/checkout@v4
+      steps:
+        # Checkout code
+        - name: Checkout code
+          uses: actions/checkout@v4
 
-       # Set up Docker Buildx
-       - name: Set up Docker Buildx
-         uses: docker/setup-buildx-action@v3
+        # Set up Docker Buildx
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v3
 
-       # Login to Docker Hub
-       - name: Login to Docker Hub
-         uses: docker/login-action@v3
-         with:
-           username: ${{ secrets.DOCKERHUB_USERNAME }}
-           password: ${{ secrets.DOCKERHUB_TOKEN }}
+        # Login to Docker Hub
+        - name: Login to Docker Hub
+          uses: docker/login-action@v3
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-       # Build and Push Docker Image
-       - name: Build and Push Docker Image
-         uses: docker/build-push-action@v6
-         with:
-           context: .
-           push: true
-           tags: ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-hello:latest
+        # Build and Push Docker Image
+        - name: Build and Push Docker Image
+          uses: docker/build-push-action@v6
+          with:
+            context: .
+            push: true
+            tags: ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-hello:latest
 
-   terraform_plan_validate:
+    terraform_plan_validate:
       name: Terraform Plan & validate
       runs-on: ubuntu-latest
       needs: docker-build-push
@@ -90,6 +90,8 @@ jobs:
             ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
             ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
             ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+            
+            
 
         - name: Terraform Validate
           run: |
@@ -101,6 +103,7 @@ jobs:
             ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
             ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
             ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+            
 
         - name: Terraform Plan
           run: terraform plan -out=tfplan
@@ -110,8 +113,9 @@ jobs:
             ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
             ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
             ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+            
 
-   terraform_apply:
+    terraform_apply:
       name: Terraform Apply
       runs-on: ubuntu-latest
       needs: terraform_plan_validate
@@ -135,6 +139,7 @@ jobs:
             ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
             ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
+
         - name: Terraform Validate
           run: |
             terraform fmt 
@@ -145,6 +150,7 @@ jobs:
             ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
             ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
             ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+            
 
         - name: Terraform Plan
           run: terraform plan -out=tfplan
@@ -154,6 +160,7 @@ jobs:
             ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
             ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
             ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+            
 
         - name: Terraform Apply
           if: github.ref == 'refs/heads/main'
@@ -164,8 +171,9 @@ jobs:
             ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
             ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
             ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+            
 
-   deploy-k8s:
+    deploy-k8s:
       name: Install & Deploy to Kubernetes on Minikube
       runs-on: ubuntu-latest
       needs: terraform_apply
