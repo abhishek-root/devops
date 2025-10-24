@@ -8,4 +8,4 @@ Simple FastAPI app with a `/health` endpoint for status checks.
 - `requirements.txt`: Dependencies
 
 ## How to Run
-1. Install dependencies:
+1. Install dependencies: 
