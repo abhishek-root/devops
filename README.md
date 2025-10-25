@@ -7,14 +7,14 @@ Terraform · Azure Cloud · CI/CD Pipelines · GitHub Actions · FastAPI · Pyth
 
 ##  Overview
 
-This project demonstrates a **complete DevOps automation workflow** — from provisioning infrastructure on **Azure** to **deploying a FastAPI application on MicroK8s** with automated CI/CD and monitoring integration.
+This project demonstrates a `complete DevOps automation workflow` — from provisioning infrastructure on `Azure` to `deploying a FastAPI application on MicroK8s` with automated CI/CD and monitoring integration.
 
 ### Technologies Used
-- **FastAPI** – Lightweight Python web framework for REST endpoints  
-- **Terraform** – Infrastructure as Code (IaC) for Azure provisioning  
-- **MicroK8s** – Lightweight Kubernetes for local or VM deployment  
-- **GitHub Actions** – CI/CD automation for testing, validation, and deployment  
-- **Prometheus & Grafana** – Metrics monitoring and visualization  
+- `FastAPI` – Lightweight Python web framework for REST endpoints  
+- `Terraform` – Infrastructure as Code (IaC) for Azure provisioning  
+- `MicroK8s` – Lightweight Kubernetes for local or VM deployment  
+- `GitHub Actions` – CI/CD automation for testing, validation, and deployment  
+- `Prometheus & Grafana` – Metrics monitoring and visualization  
 
 ---
 
@@ -77,11 +77,11 @@ The pipeline defined in .github/workflows/ci.yaml automates the following:
 
 | Stage                                 Description                                          |
 | -------------------------------------------------------------------------------------------|
-|  **Linting & Testing**                 Runs **Pylint** and **Pytest** on FastAPI code      |
-|  **Terraform Validation & Plan**       Validates Terraform syntax and previews changes     |
-|  **Docker Build & Push**               Builds Docker image and pushes to Docker Hub        |
-|  **Terraform Apply & K8s Deployment**  Applies Terraform changes and deploys app manifests |
-|  **Monitoring Setup**                  Installs Prometheus and Grafana via Helm            |
+|  `Linting & Testing`                 Runs `Pylint` and `Pytest` on FastAPI code      |
+|  `Terraform Validation & Plan`       Validates Terraform syntax and previews changes     |
+|  `Docker Build & Push`               Builds Docker image and pushes to Docker Hub        |
+|  `Terraform Apply & K8s Deployment`  Applies Terraform changes and deploys app manifests |
+|  `Monitoring Setup`                  Installs Prometheus and Grafana via Helm            |
 
 
 FastAPI Application
@@ -93,7 +93,7 @@ FastAPI Application
 | `/health` | Health check endpoint | `{"status": "ok"}`                        |
 
 
-**Access & Ports Once deployed, check your service using: **
+`Access & Ports Once deployed, check your service using: `
 microk8s kubectl get svc
 
 Example output:
@@ -105,15 +105,15 @@ To access your FastAPI app:
 http://<vm-public-ip>:30080
 
 
-**Example:
+`Example:
 
-If your VM public IP is 52.173.18.101 **
+If your VM public IP is 52.173.18.101 `
 
 Root endpoint → http://52.173.18.101:30080/
 
 Health endpoint → http://52.173.18.101:30080/health
 
-**Monitoring — Prometheus & Grafana**
+`Monitoring — Prometheus & Grafana`
 
 helm upgrade --install prometheus prometheus-community/prometheus \
   -n monitoring \
