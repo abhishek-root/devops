@@ -71,31 +71,39 @@ terraform apply -auto-approve
 
 
 
-**## CI/CD Workflow — GitHub Actions**
+CI/CD Workflow — GitHub Actions
+
 The pipeline defined in .github/workflows/ci.yaml automates the following:
 
-**Linting & Testing**                Runs **Pylint** and **Pytest** on FastAPI code      
-**Terraform Validation & Plan**      Validates Terraform syntax and previews changes     
-**Terraform Apply & K8s Deployment** Applies Terraform changes and deploys app manifests 
-**Docker Build & Push**              Builds Docker image and pushes to Docker Hub        
-**Monitoring Setup**                 Installs Prometheus and Grafana via Helm
+| Stage                                 Description                                          |
+| -------------------------------------------------------------------------------------------|
+|  **Linting & Testing**                 Runs **Pylint** and **Pytest** on FastAPI code      |
+|  **Terraform Validation & Plan**       Validates Terraform syntax and previews changes     |
+|  **Docker Build & Push**               Builds Docker image and pushes to Docker Hub        |
+|  **Terraform Apply & K8s Deployment**  Applies Terraform changes and deploys app manifests |
+|  **Monitoring Setup**                  Installs Prometheus and Grafana via Helm            |
 
-**FastAPI Application**
+
+FastAPI Application
  Endpoints
 
- `/`       | Root endpoint         | `{"message": "Hello World from FastAPI"}` 
- `/health` | Health check endpoint | `{"status": "ok"}`
+| Endpoint  | Description           | Example Response                          |
+| --------- | --------------------- | ----------------------------------------- |
+| `/`       | Root endpoint         | `{"message": "Hello World from FastAPI"}` |
+| `/health` | Health check endpoint | `{"status": "ok"}`                        |
+
 
 **Access & Ports Once deployed, check your service using: **
 microk8s kubectl get svc
 
+Example output:
+
 NAME              TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
 fastapi-service   NodePort    10.152.183.100   <none>        30080:30080/TCP  10m
 
-
 To access your FastAPI app:
-
 http://<vm-public-ip>:30080
+
 
 **Example:
 
